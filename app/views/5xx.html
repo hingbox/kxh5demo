@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+  <style>
+    *{margin:0;padding:0}
+    html,body{ height:100%; background:#eee;color:#333;font-family: SimHei, "Microsoft YaHei","微软雅黑",Tahoma, sans-serif;}
+    :focus, a, a:active, a:focus, a:hover, button, button:focus { outline: 0 }
+    .paddingless{ padding:0;}
+    .tx-c { text-align: center }
+    a{color:#ee4747; text-decoration:none;}
+    .header{position:fixed;left:0; right:0; top:0;z-index:100;padding:5px;box-sizing: border-box;width:100%;height:44px;overflow:hidden;min-width: 320px;margin: 0 auto;max-width: 640px; background:#fafafa; border-bottom:1px solid #dbdbdb}
+    .header .title { position: absolute; top: 0; right: 0; left: 0; z-index: 0; overflow: hidden; margin: 0 10px; min-width: 30px; height: 43px; text-align: center; text-overflow: ellipsis; white-space: nowrap; font-size: 18px; line-height: 44px;font-weight: 400; }
+    .header .title a { color: inherit }
+    .icon-back{background:url(images/icon-back.png) no-repeat; display:inline-block; vertical-align:middle; width:13px; height:20px;-webkit-background-size: 13px 20px;background-size: 13px 20px; margin:7px 0 0 11px;}
+    .content{padding-top:44px;width:100%;min-width: 320px;margin: 0 auto;max-width: 640px; height: auto;}
+    .img-error{width:100px; margin:50px auto 30px auto;}
+    .img-error img{width:100px; height:100px;}
+    .item-errortxt h2{font-size:21px; color:#000;}
+    .item-errortxt p{margin-top:15px; font-size:17px; color:#999;}
+    .item-errortxt a{border-bottom:1px solid #ee4747}
+    .refresh{ margin-top:60px;}
+    .refresh a{display:inline-block; line-height:36px; padding:0 50px; border:2px solid #ee4747; border-radius:36px;}
+    .refresh span.icon{background:url(images/icon-refresh.png) no-repeat; display:inline-block; vertical-align:baseline; width:17px; height:16px;-webkit-background-size: 17px 16px;background-size: 17px 16px; margin-right:5px;}
+    .hotline{ position:absolute; bottom:15px;z-index:100;width:100%;min-width: 320px;margin: 0 auto;max-width: 640px; }
+    .gradient-line{width:100%; height:1px; display:inline-block;background: -webkit-linear-gradient(left, #eee, #c9c9c9, #c9c9c9, #c9c9c9, #eee);}
+    .txt-line{margin-top:-20px;}
+    .txt-line span{display:inline-block; background:#eee; color:#7a5946; padding:0 15px; line-height:30px;}
+  </style>
+  <title>出错啦</title>
+</head>
+<body>
+  <header class="header">
+    <a href="#"><span class="icon-back"></span></a>
+    <h1 class="title">出错啦</h1>
+  </header>
+
+  <section class="content">
+    <div class="img-error"><img src="/img/img-404.png" alt="404"></div>
+      <div class="item-errortxt tx-c">
+      <h2>{% if e %}{{e.message}}{%else%}系统异常{% endif %}</h2>
+      <p>请您重新刷新页面，或者<a href="/index">返回首页</a></p>
+    </div>
+
+    <div class="refresh tx-c">
+      <a href="javascript:window.location.reload()">
+        <span class="icon"></span>重新加载
+      </a>
+    </div>
+
+    <div class="hotline">
+      <div class="gradient-line paddingless"></div>
+      <div class="txt-line tx-c"><span>温馨热线：021-12345678</span></div>
+    </div>
+  </section>
+</body>
+</html>

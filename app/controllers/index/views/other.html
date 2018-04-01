@@ -1,0 +1,161 @@
+{% extends './../../../views/layout.html' %}
+{% block css %}
+<link rel="stylesheet" href="./css/demo/aa.css">
+<link rel="stylesheet" href="./css/demo/bb.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+{% endblock %}
+{% block javascript%}
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+{% endblock %}
+{% block content %}
+<div class="item">
+    {% if info != null && info.length > 0 %}
+    <table class="table table-hover">
+        <caption>市值</caption>
+        <thead>
+        <tr>
+            <th>交易对</th>
+            <th>价格</th>
+            <th>人民币价格</th>
+            <th>涨幅(今日)</th>
+            <th>交易额(24h)</th>
+            <th>k线</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for data in info%}
+        <tr>
+            <td class="text-center ">
+                <span class="ant-table-row-indent indent-level-0" style="padding-left: 0px;"></span>{{data.pair}}
+                <a href="/currency/?com_id=btc_cny&amp;market_id=1303&amp;market_name=cmc&amp;symbol=BTC&amp;anchor=CNY&amp;" style="color: rgba(0, 0, 0, 0.65); display: flex; align-items: center;"><img src="{{data.logo}}" class="mr-5" alt="" style="width: 14px; height: 14px;">
+              <span style="line-height: 1.2;">{{data.currency}}<br>
+                <span class="gray fs-12">{{data.alias}}</span>
+              </span></a>
+            </td>
+
+            <td class="text-right ">${{data.price}}</td>
+            <td class="text-right">{{data.hr_price_display}}</td>
+            <td class="text-right">
+                <div class="m-green">{{data.percent_change_utc0}}%</div>
+            </td>
+            <td class="text-right">{{(data.volume_24h /100000000).toFixed(2)}}亿{{data.anchor}}</td>
+            <td class="blank-td"></td>
+        </tr>
+        {% endfor %}
+
+        {% else %}
+        <div class="item-focus">
+            <h2 class="title-focus">暂无数据</h2>
+            <span class="line"></span>
+        </div>
+        {% endif %}
+
+        </tbody>
+    </table>
+
+</div>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+/*$(document).ready(function(){
+  var $list = $('div.refresher-list');
+  $list.refresher({
+    onScrollStart:function(){
+      console.log("start");
+    },
+    onScroll:function(){
+      console.log("scrolling");
+    },
+    onScrollEnd:function(){
+      console.log("end");
+    },
+    pullDownActionHandler: function(){
+      for (i=0; i<3; i++) {
+        $list.prepend([
+          '<div class="border-bottom refresher-item white-bg">',
+            '<div class="item item-avatar m15">',
+              '<img src="images/img-useravatar-02.jpg"/>',
+              '<h2>',
+                '<span class="name-avatar">李禅</span>',
+                '<span class="item-note"><i class="icon-message"></i></span>',
+              '</h2>',
+              '<div class="mutual-comment" style="display:none;">',
+                '<button class="button button-clear button-comment">',
+                  '<i class="icon-praise mr-5"></i>点赞',
+                '</button>',
+                '<button class="button button-clear button-comment" data-toggle="commentinput" data-url="/bbs/card/review"  data-btntxt="评论" data-placeholder="评论...">',
+                  '<i class="icon-review mr-5"></i>评论',
+                '</button>',
+              '</div>',
+              '<p class="comment-time" onclick="javascript:void(0);"><i class="icon-clock mr-5"></i>3小时前</p>',
+              '<p class="comment-txt">下拉刷新-', new Date().getTime() ,'</p>',
+              '<p class="comment-location pt-5"><i class="icon-location mr-5"></i>水西环路</p>',
+            '</div>',
+          '</div>'
+        ].join(''));
+      }
+      this.refresh();
+    },
+    pullUpActionHandler: function(){
+      for (i=0; i<3; i++) {
+        $list.append([
+          '<div class="border-bottom refresher-item">',
+            '<div class="item item-avatar m15">',
+              '<a href="/soso/demo?t=',new Date().getTime(),'">',
+              '<img src="images/img-useravatar-02.jpg"/>',
+              '</a>',
+              '<h2>',
+                '<span class="name-avatar">李禅</span>',
+                '<span class="item-note"><i class="icon-message"></i></span>',
+              '</h2>',
+              '<div class="mutual-comment" style="display:none;">',
+                '<button class="button button-clear button-comment">',
+                  '<i class="icon-praise mr-5"></i>点赞',
+                '</button>',
+                '<button class="button button-clear button-comment" data-toggle="commentinput" data-url="/bbs/card/review"  data-btntxt="评论" data-placeholder="评论...">',
+                  '<i class="icon-review mr-5"></i>评论',
+                '</button>',
+              '</div>',
+              '<p class="comment-time" onclick="javascript:void(0);"><i class="icon-clock mr-5"></i>3小时前</p>',
+              '<p class="comment-txt">上拉加载更多-', new Date().getTime() ,'</p>',
+              '<p class="comment-location pt-5"><i class="icon-location mr-5"></i>水西环路</p>',
+            '</div>',
+          '</div>'
+        ].join(''));
+      }
+      this.refresh();
+    }
+  });
+
+  // var selector = '[data-toggle=\"commentinput\"]';
+  // var $CommentInput = $(selector).commentinput();
+
+  $("body").click(function(e){
+    var $t = $(e.target);
+    if($t.is('.icon-message')){
+      $(".mutual-comment").hide();
+      $t.parent().parent().siblings(".mutual-comment").show();
+    }else{
+      $(".mutual-comment").hide();
+    }
+
+    // if($t.is('[data-toggle=\"commentinput\"]')){
+    //   if($t.data('readonly') === true){
+    //   }else{
+    //     $CommentInput.setTarget(e.target);
+    //     $CommentInput.show();
+    //   }
+    // }else{
+    //   if(!$t.is('[data-toggle=\"commentinput\"]')
+    //     && !$t.is('div.elab-commentinput')
+    //     && $t.parents('div.elab-commentinput').length <1
+    //     && $CommentInput.isVisible){
+    //     $CommentInput.hide();
+    //   }
+    // }
+  });
+});*/
+</script>
+{% endblock %}

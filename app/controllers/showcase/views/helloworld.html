@@ -1,0 +1,125 @@
+{% extends './../../../views/layout.html' %}
+
+{%block css%}
+<style>
+.refresh-body{
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+}
+
+#stepselector{margin: 0px 20px;}
+</style>
+{%endblock%}
+
+
+{% block content %}
+  <ul class="item-post-issueimg clearfix">
+    <div data-toggle="imageupload"
+      data-maxnum="5"
+      data-imgs="1.jpg,2.jpg"
+      data-imgurls="http://img2.bdstatic.com/static/activity/widget/ugcpc/img/pc_index_09e652a.png,http://img2.bdstatic.com/static/activity/widget/ugcpc/img/pc_index_09e652a.png"
+      data-imgsize="80"
+      data-url="http://127.0.0.1:3000/"
+      data-params="type=post;boy=Jack;girl=rose">
+    </div>
+  </ul>
+
+  <ul class="item-post-issueimg clearfix">
+    <div id="imgcompare"></div>
+  </ul>
+
+  <br>
+  <div id="stepselector"></div>
+  <br>
+  <p>
+    <input type="button"
+      data-toggle="commentinput"
+      data-url="/sso/demo/coommentinput"
+      data-params="a=1;b=2;c=3"
+      data-btntxt="回复"
+      data-placeholder="回复..." value="回复">
+    </input>
+  </p>
+  <p>
+    <span>12444444&@***</span>
+    Hello World![大哭][大哭]回复刻[疑问][疑问]录机啊打算；
+    离开房间al，[骷髅]l卡嘉莉第三方空间拉空间；
+    空间啊拉空间的法律klkjljljkj[笑]
+  </p>
+  <p data-toggle="commentinput" data-readonly="true">
+    <span>12444444&@***</span>
+    Hello World![骷髅][骷髅]回复刻[右哼哼][右哼哼]录机啊打算；
+    离开房间al，[骷髅]l卡嘉莉第三方空间拉空间；
+    空间啊拉空间的法律klkjljljkj[玫瑰]
+  </p>
+
+  <p data-toggle="commentinput" data-readonly="true">
+    <span>12444444&@***</span>
+    Hello World![骷髅][骷髅]回复刻[右哼哼][右哼哼]录机啊打算；
+    离开房间al，[骷髅]l卡嘉莉第三方空间拉空间；
+    空间啊拉空间的法律klkjljljkj[玫瑰]
+  </p>
+
+  <p data-toggle="imgmore" data-imgs="http://img2.bdstatic.com/static/activity/widget/ugcpc/img/pc_index_09e652a.png,http://img2.bdstatic.com/static/activity/widget/ugcpc/img/pc_index_09e652a.png,http://img2.bdstatic.com/static/activity/widget/ugcpc/img/pc_index_09e652a.png,http://img2.bdstatic.com/static/activity/widget/ugcpc/img/pc_index_09e652a.png">更多图片</p>
+
+  <br>
+  <input type="text" id="date1" data-theme="datetime" data-toggle="datepicker" readonly placeholder="年-月-日-时间-回调">
+  <br>
+  <input type="text" id="date2" data-theme="date" data-toggle="datepicker" readonly placeholder="年-月-日">
+  <br>
+  <input type="text" id="date3" data-theme="time" data-toggle="datepicker" readonly placeholder="时间">
+  <br>
+  <input type="text" id="date4" data-theme="month" data-toggle="datepicker" readonly placeholder="月份">
+  <br>
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+$(document).ready(function(){
+  $(document).on('commentinput-send-success',function(event, params){
+    console.log(arguments);
+  });
+
+  $('#date1').datepicker({
+    beginyear: 2005,
+    theme: 'datetime',
+    callBack: function() {
+      elab.message.show("--!当前值:" + $('#date1').val());
+    }
+  });
+
+  $('#stepselector').stepselector({
+    steps:'30,50,70,90,100,120,150,200',
+    nilText: '无所谓',
+    defaultValue:'100',
+    tipFormatter: function(v){
+      return v + "万";
+    },
+    onChange:function(v){
+      console.log(v);
+    }
+  });
+
+  $('#imgcompare').imgcompare({
+    newurl: 'http://127.0.0.1:3000/160226-F-YZ123-004.PNG',
+    oldurl: 'http://img2.bdstatic.com/static/activity/widget/ugcpc/img/pc_index_09e652a.png'
+  });
+
+  // $('#stepselector').slider({
+  //   steps:'50,100,200,500,1000',
+  //   nilText: '无所谓',
+  //   defaultValue:[50, 200],
+  //   range:true,
+  //   tipFormatter: function(v){
+  //     return v+"万";
+  //   },
+  //   onChange:function(v){
+  //     console.log(v);
+  //   }
+  // });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+  <base href="/">
+  <title>{{title}}</title>
+  <meta name="description" content="{{description}}">
+  <meta name="keywords" content="{{keywords}}">
+  <meta name="fragment" content="!">
+
+  <!-- Apple META -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  {% block meta %}{% endblock %}
+  <!-- Application CSS Files -->
+  {% for cssFile in cssFiles %}<link rel="stylesheet" href="/{{cssFile}}?v={{version}}">{% endfor %}
+  {% set no = "无"; %}
+  {% set nodata="暂无资料" %}
+  <!-- Page CSS Style -->
+  {% block css %}{% endblock %}
+
+  <!--[if IE]>
+  <script type="text/javascript" src="/js/classList.min.js" charset="utf-8"></script>
+  <![endif]-->
+
+  <!--Application JavaScript Files-->
+  {% for jsFile in jsFiles %}<script type="text/javascript" src="/{{jsFile}}?v={{version}}"></script>{% endfor %}
+  <!--Page JavaScript-->
+  {% block javascript %}{% endblock %}
+</head>
+<body>
+{% if noHead %}
+  {% block header %}{% endblock %}
+{% else %}
+  <header class="header">
+    {% if noMenu %}
+      <a href="javascript:elab.history.back();">
+        <div class="button button-icon icon-arrow-left"></div>
+      </a>
+      {% if hideTitle %}
+      {%else%}
+      <h1 class="title">{{title}}</h1>
+      {%endif%}
+    {% else %}
+      <div id="navbar">
+        <a href="javascript:void(0);" class="button button-icon icon-nav menubtn button-header-more">
+          {# <div class="header-note"></div> 购物车有变化时添加 #}
+        </a>
+        {% if hideTitle %}
+        {%else%}
+        <h1 class="title">{{title}}</h1>
+        {%endif%}
+        <div class="nav">
+          <div class="item nav-top pt-b-35">
+            <div class="ml-r-15">
+              <div class="img-sign"><img src="/img/user/img-user.png"></div>
+              {% if isAuth %}
+              <div class="mt-10">
+                <a class="f-white">{{loginId}}</a>
+              </div>
+              {% else %}
+              <div class="mt-10">
+                <a class="f-white" href="/auth/login/index">&nbsp;登陆账户&nbsp;</a>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+          {% if isAuth %}
+          <ul class="ml-r-15 mt-30">
+            <li><a href="/dz/city/index" class="block"><i class="icon icon-home mr-10"></i>首页</a></li>
+            <li><a href="/dz/order" class="block"><i class="icon icon-order mr-10"></i>我的订单</a></li>
+            <li>
+              <a href="/dz/cart/initcart" class="block"><i class="icon icon-cart-nav mr-10"></i>我的购物车
+                <span class="f-proper">({{cartCount}})</span>
+              </a>
+            </li>
+            <li><a href="javascript:logout();" class="block"><i class="icon icon-clear mr-10"></i>清除缓存</a></li>
+          </ul>
+          {% else %}
+          <ul class="ml-r-15 mt-30">
+            <li><a href="/dz/city/index" class="block"><i class="icon icon-home mr-10"></i>首页</a></li>
+            <li><a href="/dz/order" class="block"><i class="icon icon-order mr-10"></i>我的订单</a></li>
+            <li>
+              <a href="/dz/cart/initcart" class="block"><i class="icon icon-cart-nav mr-10"></i>我的购物车
+                <span class="f-proper">({{cartCount}})</span>
+              </a>
+            </li>
+          </ul>
+          {% endif %}
+        </div>
+      </div>
+      <div class="overlay"></div>
+    {% endif %}
+  </header>
+{% endif %}
+
+<section class="main">
+  {% block content %}{% endblock %}
+</section>
+
+{% if noNavigation %}
+  {% block navigation %}{% endblock %}
+{% endif %}
+
+{% if noFoot %}
+  {% block footer %}{% endblock %}
+{% else %}
+{% endif %}
+
+<!-- Page JavaScript -->
+{% block js %}{% endblock %}
+<script type="text/javascript">
+  $(document).ready(function(){
+    {% if  backUrl %}
+    if(elab.history.length() == 0){
+      elab.history.add("{{backUrl}}");
+    }
+    {% endif %}
+
+    var rurl = elab.util.getQueryString('returnurl');
+    if(!_.isEmpty(rurl) || {% if noHistory %}true{%else%}false{% endif %}){
+      elab.history.skipCurrentPage = true;
+    }
+    {% if noHistory %}{%else%}
+	elab.history.add(window.location.href);
+    {% endif %}
+  });
+</script>
+
+{% if noMenu %}{% else %}
+<script type="text/javascript">
+$(document).ready(function(){
+  var menuwidth  = 230; // 边栏宽度
+  var menuspeed  = 200; // 边栏滑出耗费时间
+
+  var $bdy       = $('body');
+  var $container = $bdy;
+  var $burger    = $('#navbar>div.nav');
+  var $content   = $('section.content');
+  var $overlay = $('.overlay');
+  var $header = $('header.header');
+  var negwidth   = "-"+menuwidth+"px";
+  var poswidth   = menuwidth+"px";
+
+  $('#navbar>a.menubtn').on('click',function(e){
+    if($bdy.hasClass('openmenu')) {
+      jsAnimateMenu('close');
+    } else {
+      jsAnimateMenu('open');
+    }
+  });
+
+  $overlay.on('click', function(e){
+    if($bdy.hasClass('openmenu')) {
+      jsAnimateMenu('close');
+    }
+  });
+
+  function jsAnimateMenu(tog) {
+    if(tog == 'open') {
+      $bdy.addClass('openmenu');
+      var pos = Math.round(($(window).width() - $container.width())/2);
+      pos = pos < 0 ? 0 : pos;
+      $content.css({'margin-left':pos});
+      $burger.css({'margin-left' : pos}).animate({width: poswidth}, menuspeed);
+      $overlay.animate({left: 0}, menuspeed);
+      $burger.css('position','fixed');
+      $header.css('overflow','visible');
+    }
+
+    if(tog == 'close') {
+      $burger.animate({width: 0}, {duration: menuspeed, easing: "linear", complete: function(){
+        $content.removeAttr('style');
+        $header.css('overflow',null);
+        $burger.css('position',null);
+        $overlay.css("left",0);
+        $bdy.removeClass('openmenu');
+      }});
+    }
+  }
+});
+</script>
+{% endif %}
+
+<script type="text/javascript">
+
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?b1ed37de0f76386a7c21a82b1f7ee33b";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+
+function logout(){
+  $.get('/auth/logout',function(res){
+    window.location.reload();
+  })
+};
+{%block init%}
+
+{% endblock %}
+</script>
+</body>
+</html>

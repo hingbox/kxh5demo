@@ -1,0 +1,147 @@
+{% extends './../../../views/layout.html' %}
+
+{% block content %}
+<div class="refresher-list">
+  <div class="border-bottom refresher-item">
+    <div class="item item-avatar m15">
+      <img src="images/img-useravatar-02.jpg"/>
+      <h2>j
+        <span class="name-avatar">李禅</span>
+        <span class="item-note"><i class="icon-message"></i></span>
+      </h2>
+      <div class="mutual-comment" style="">
+        <button class="button button-clear button-comment">
+          <i class="icon-praise mr-5"></i>点赞
+        </button>
+        <button class="button button-clear button-comment" data-toggle="commentinput" data-url="/bbs/card/review"  data-btntxt="评论" data-placeholder="评论...">
+          <i class="icon-review mr-5"></i>评论
+        </button>
+      </div>
+      <p class="comment-time"><i class="icon-clock mr-5"></i>3小时前</p>
+      <p class="comment-txt">有一天，父亲对儿子说你会不会做考试的题呀。儿子说，有一道题不会做，3乘7，那你最后填的什么呀，管他三七二一，填了个24上去。</p>
+      <p class="comment-location pt-5"><i class="icon-location mr-5"></i>水西环路</p>
+      <div class="item pt-20">
+        <span class="arrow-gray-up"></span>
+        <div class="item-praisebox">
+          <p class="praise-person"><i class="icon-praise mr-5"></i>  二娃，小黑，momo，刘音音，黄晓明，x_vitus，李晨</p>
+          <hr class="praise-line mb-5">
+          <p><span class="f-back">刘音音</span>：喜良越来越冷为什么？因为他坐的是动（冻）车。</p>
+          <p><span class="f-back">王祖蓝</span>回复<span class="f-back">刘音音</span>：完美。。。</p>
+          <p><span class="f-back">郑恺</span>：拇指姑娘去算命，算命先生掐指一算，拇指姑娘就被掐死了。。。</p>
+          <div class="block" id="lesstxt" style="display:block">
+            <p class=" tx-c"><a href="javascript:" onclick="document.all.moretxt.style.display=(document.all.moretxt.style.display=='none')?'':'none';document.all.lesstxt.style.display=(document.all.lesstxt.style.display=='none')?'':'none'" class="block f-black f14" >更多<i class="icon-arrow-down ml-5"></i></a></p>
+          </div>
+          <div class="block" id="moretxt" style="display:none;">
+            <p><span class="f-back">鹿晗</span>：人家是小鲜肉喔~</p>
+            <p><span class="f-back">邓超</span>：每次和别人聊天都见各种人打。。。，我最受不了！尼玛你上辈子是金鱼么，没事吐泡泡。。。</p>
+            <p class="tx-c"><a href="javascript:" onclick="document.all.moretxt.style.display=(document.all.moretxt.style.display=='none')?'':'none';document.all.lesstxt.style.display=(document.all.lesstxt.style.display=='none')?'':'none'" class="block f-black f14" >收起<i class="icon-arrow-up ml-5"></i></a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+$(document).ready(function(){
+  var $list = $('div.refresher-list');
+  $list.refresher({
+    onScrollStart:function(){
+      console.log("start");
+    },
+    onScroll:function(){
+      console.log("scrolling");
+    },
+    onScrollEnd:function(){
+      console.log("end");
+    },
+    pullDownActionHandler: function(){
+      for (i=0; i<3; i++) {
+        $list.prepend([
+          '<div class="border-bottom refresher-item white-bg">',
+            '<div class="item item-avatar m15">',
+              '<img src="images/img-useravatar-02.jpg"/>',
+              '<h2>',
+                '<span class="name-avatar">李禅</span>',
+                '<span class="item-note"><i class="icon-message"></i></span>',
+              '</h2>',
+              '<div class="mutual-comment" style="display:none;">',
+                '<button class="button button-clear button-comment">',
+                  '<i class="icon-praise mr-5"></i>点赞',
+                '</button>',
+                '<button class="button button-clear button-comment" data-toggle="commentinput" data-url="/bbs/card/review"  data-btntxt="评论" data-placeholder="评论...">',
+                  '<i class="icon-review mr-5"></i>评论',
+                '</button>',
+              '</div>',
+              '<p class="comment-time" onclick="javascript:void(0);"><i class="icon-clock mr-5"></i>3小时前</p>',
+              '<p class="comment-txt">下拉刷新-', new Date().getTime() ,'</p>',
+              '<p class="comment-location pt-5"><i class="icon-location mr-5"></i>水西环路</p>',
+            '</div>',
+          '</div>'
+        ].join(''));
+      }
+      this.refresh();
+    },
+    pullUpActionHandler: function(){
+      for (i=0; i<3; i++) {
+        $list.append([
+          '<div class="border-bottom refresher-item">',
+            '<div class="item item-avatar m15">',
+              '<a href="/soso/demo?t=',new Date().getTime(),'">',
+              '<img src="images/img-useravatar-02.jpg"/>',
+              '</a>',
+              '<h2>',
+                '<span class="name-avatar">李禅</span>',
+                '<span class="item-note"><i class="icon-message"></i></span>',
+              '</h2>',
+              '<div class="mutual-comment" style="display:none;">',
+                '<button class="button button-clear button-comment">',
+                  '<i class="icon-praise mr-5"></i>点赞',
+                '</button>',
+                '<button class="button button-clear button-comment" data-toggle="commentinput" data-url="/bbs/card/review"  data-btntxt="评论" data-placeholder="评论...">',
+                  '<i class="icon-review mr-5"></i>评论',
+                '</button>',
+              '</div>',
+              '<p class="comment-time" onclick="javascript:void(0);"><i class="icon-clock mr-5"></i>3小时前</p>',
+              '<p class="comment-txt">上拉加载更多-', new Date().getTime() ,'</p>',
+              '<p class="comment-location pt-5"><i class="icon-location mr-5"></i>水西环路</p>',
+            '</div>',
+          '</div>'
+        ].join(''));
+      }
+      this.refresh();
+    }
+  });
+
+  // var selector = '[data-toggle=\"commentinput\"]';
+  // var $CommentInput = $(selector).commentinput();
+
+  $("body").click(function(e){
+    var $t = $(e.target);
+    if($t.is('.icon-message')){
+      $(".mutual-comment").hide();
+      $t.parent().parent().siblings(".mutual-comment").show();
+    }else{
+      $(".mutual-comment").hide();
+    }
+
+    // if($t.is('[data-toggle=\"commentinput\"]')){
+    //   if($t.data('readonly') === true){
+    //   }else{
+    //     $CommentInput.setTarget(e.target);
+    //     $CommentInput.show();
+    //   }
+    // }else{
+    //   if(!$t.is('[data-toggle=\"commentinput\"]')
+    //     && !$t.is('div.elab-commentinput')
+    //     && $t.parents('div.elab-commentinput').length <1
+    //     && $CommentInput.isVisible){
+    //     $CommentInput.hide();
+    //   }
+    // }
+  });
+});
+</script>
+{% endblock %}

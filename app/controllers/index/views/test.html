@@ -1,0 +1,47 @@
+{% extends './../../../views/layout.html' %}
+{% block css %}
+<link rel="stylesheet" href="./css/demo/aa.css">
+<link rel="stylesheet" href="./css/demo/bb.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+{% endblock %}
+{% block javascript%}
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+{% endblock %}
+{% block content %}
+<section>
+    <table class="table table-hover">
+        <caption>悬停表格布局</caption>
+        <thead>
+        <tr>
+            <th>名称</th>
+            <th>城市</th>
+            <th>邮编</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Tanmay</td>
+            <td>Bangalore</td>
+            <td>560001</td>
+        </tr>
+        <tr>
+            <td>Sachin</td>
+            <td>Mumbai</td>
+            <td>400003</td>
+        </tr>
+        <tr>
+            <td>Uma</td>
+            <td>Pune</td>
+            <td>411027</td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+
+</script>
+{% endblock %}
