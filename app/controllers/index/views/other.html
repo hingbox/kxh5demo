@@ -10,10 +10,12 @@
 {% endblock %}
 {% block content %}
 <div class="item">
-    <select>
-        <option>11</option>
-        <option>22</option>
-        <option>33</option>
+    全部行情：<select id="select">
+    <option value ="1324">OKEx</option>
+    <option value ="338">Binance</option>
+    <option value="108">Huobi.pro</option>
+    <option value="1333">Gate.io</option>
+</select>
     </select>
     {% if info != null && info.length > 0 %}
     <table class="table table-hover">
@@ -64,6 +66,57 @@
 
 {% block js %}
 <script type="text/javascript">
+   var selected =$('#select option:selected').val();
+    $(document).on('change','#select',function(){
+       selected = $(this).val();
+        console.log('abc'+selected);
+        var params={};
+
+        var params = JSON.stringify({
+            "market_id" : 1324,
+            "page" : 1,
+            "size" : 20,
+            "direction" : 'asc',
+            "sort" : 'rank',
+            "timestamp" : '1522552504356',
+            "v" : '1.4.0',
+            "code" : '42bbf99ed4490fd0af0720351cfee1c7',
+            'platform':'m',
+            'language':'zh_CN',
+            "ajax" : true
+        });
+
+        var url = 'https://api2.mytoken.org/currency/currencylist?market_id=1324&page=1&size=20&direction=asc&sort=rank&timestamp=1522552504356&code=42bbf99ed4490fd0af0720351cfee1c7&v=1.4.0&platform=m&language=zh_CN';
+        $.ajax({
+            url:url,
+            type:"get",
+            success:function(response){
+
+            },
+            error:function() {
+            }
+        });
+       /* $.get(url,function(data,status){
+            alert("Data: " + data + "\nStatus: " + status);
+        });*/
+       /* $.post(url, JSON.stringify({'ajax' : true}), function(res){
+            if(res.code==0){
+                console.log('success');
+                //elab.util.redirect(res.redirectUrl);
+            }
+        });*/
+    });
+
+   /* $(document).ready(function () {
+
+    var selected =$('#select option:selected').val();
+        $("#select").change(function(){
+            selected = $(this).children('option:selected').val();
+        });
+        console.log('选择的值---'+selected);
+       // var b = $('#select option:selected').val();    // 结果为 123
+       // console.log(b);
+    });*/
 /*$(document).ready(function(){
   var $list = $('div.refresher-list');
   $list.refresher({
