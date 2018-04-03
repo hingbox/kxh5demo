@@ -110,12 +110,14 @@ handlers.zhidao = function*(){
   /**
    * 早知道 子项文字
    */
-  var res = yield this.webservice('get', 'https://api2.mytoken.org/media/categorylist?timestamp=1522542680379&code=63064150d34678bb6f0dc1a367f9e93d&v=1.4.0&platform=m&language=zh_CN&',{});
+  var resZhiDao = yield this.webservice('get', 'https://api2.mytoken.org/media/categorylist?timestamp=1522542680379&code=63064150d34678bb6f0dc1a367f9e93d&v=1.4.0&platform=m&language=zh_CN&',{});
 
   let planInfo = null;
+  let resZhiDaoList =null;
   if(res.code ==0 ){
     console.log("111--------"+res);
     planInfo = res.data.list;
+    resZhiDaoList = resZhiDao.data.list;
 
   }
   yield this.render('zhidao', {
@@ -123,7 +125,8 @@ handlers.zhidao = function*(){
     noHead : true,
     title : "h5demo",
     description : "zhidao",
-    planInfo : planInfo
+    planInfo : planInfo,
+    resZhiDaoList:resZhiDaoList
 
   });
 };

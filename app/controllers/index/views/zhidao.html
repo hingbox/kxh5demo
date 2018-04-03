@@ -12,11 +12,14 @@
 {% block content %}
 <div class="item">
     早知道:<select>
+
+   <!-- {% for zhiDaoData in resZhiDaoList%}-->
     <option value ="volvo">交易公告</option>
     <option value ="saab">交易所推特</option>
     <option value="opel">大V推特</option>
     <option value="audi">币聊</option>
     <option value="audi">教程</option>
+    <!--{% endfor %}-->
 </select>
     </select>
     {% if planInfo != null && planInfo.length > 0 %}
