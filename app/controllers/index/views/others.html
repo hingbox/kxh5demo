@@ -11,9 +11,10 @@
 {% block content %}
 <div class="item">
     全部行情：<select id="select">
-    {% for resOtherData in resOtherList%}
-    <option value ="{{resOtherData.market_id}}">{{resOtherData.name}}</option>
-    {% endfor %}
+    <option value ="1324">OKEx</option>
+    <option value ="338">Binance</option>
+    <option value="108">Huobi.pro</option>
+    <option value="1333">Gate.io</option>
 </select>
     </select>
     {% if info != null && info.length > 0 %}
@@ -30,7 +31,7 @@
         </tr>
         </thead>
         <tbody>
-        {% for data in info%}
+        {% for data in resultSet%}
         <tr>
             <td class="text-center ">
                 <span class="ant-table-row-indent indent-level-0" style="padding-left: 0px;"></span>{{data.pair}}
@@ -65,65 +66,6 @@
 
 {% block js %}
 <script type="text/javascript">
-
-   /* $(".save-btn").on("click",function(){
-        var followLog = $.trim($("#followLog").val());
-        if(followLog == ""){
-            elab.dialog.alert("提示", "请填写到访内容");
-            return false;
-        }
-        var followModality = $("#followModality").val();
-        let params = {
-            "customerId" : "{{customerId}}",
-            "followModality": followModality,
-            "followLog": followLog,
-            "ajax" : true
-        };
-        elab.mask.show();
-        var url = elab.util.buildurl('web_other');
-        $.post(url, JSON.stringify(params), function (res) {
-            elab.mask.hide();
-            if(res.success){
-                elab.util.redirect("/customer/adviser/customer/detail/{{mobile}}");
-            } else {
-                elab.dialog.alert("提示", res.message);
-            }
-        });
-    });*/
-   let params = {};
-   var market_id =$('#select option:selected').val();
-    $(document).on('change','#select',function(){
-        market_id = $(this).val();
-        //console.log("market_id",market_id);
-        var url = elab.util.buildurl('web_other');
-        elab.util.redirect('/index/other?market_id='+market_id);
-        /*elab.mask.show();
-        let params = {
-            "market_id": market_id
-        };
-        var url = elab.util.buildurl('web_other');
-        $.post(url, JSON.stringify(params), function (res) {
-            elab.mask.hide();
-            if(res.success){
-
-            } else {
-                elab.dialog.alert("提示", res.message);
-            }
-        });*/
-       /* var params = JSON.stringify({
-            "market_id" : 1324,
-            "page" : 1,
-            "size" : 20,
-            "direction" : 'asc',
-            "sort" : 'rank',
-            "timestamp" : '1522552504356',
-            "v" : '1.4.0',
-            "code" : '42bbf99ed4490fd0af0720351cfee1c7',
-            'platform':'m',
-            'language':'zh_CN',
-            "ajax" : true
-        });*/
-    });
 
 </script>
 {% endblock %}

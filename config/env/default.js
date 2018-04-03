@@ -98,6 +98,7 @@ module.exports = {
     }
   },
   routers:{
+    'web_other' : {url:'/index/others'  ,auth: false, ssl: false, cache: true},
     'account-reg-index' : {url:'/account/reg/index'  ,auth: false, ssl: false, cache: true},
     'account-reg-acctStatusCheck':{url:'/account/reg/acctStatusCheck'  ,auth: false, ssl: false, cache: false},
     'account-reg-signup': {url:'/account/reg/signup' ,auth: false, ssl: false, cache: true},
