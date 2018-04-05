@@ -103,14 +103,49 @@ handlers.other = function*(){
 
 };
 handlers.zhidao = function*(){
+  let type = this.query.type;
+  console.log('type-----------'+type)
+  if (type ==null || type == 'undefined') {
+      type =1;
+  }
   // let mobile = this.params.mobile;
   // var params = { 'mobile' : mobile };
   //获取币名称
-  var res = yield this.webservice('get', 'https://api2.mytoken.org/media/medialist?type=1&keyword=exchange_announcement&tag=&page=2&timestamp=1522493677725&code=8ef475ad7bd602677269a00cb14e30f1&v=1.4.0&platform=m&language=zh_CN&',{});
+  var res = yield this.webservice('get', 'https://api2.mytoken.org/media/medialist?type='+type+'&keyword=exchange_announcement&tag=&page=2&timestamp=1522493677725&code=8ef475ad7bd602677269a00cb14e30f1&v=1.4.0&platform=m&language=zh_CN&',{});
   /**
    * 早知道 子项文字
    */
   var resZhiDao = yield this.webservice('get', 'https://api2.mytoken.org/media/categorylist?timestamp=1522542680379&code=63064150d34678bb6f0dc1a367f9e93d&v=1.4.0&platform=m&language=zh_CN&',{});
+
+  let planInfo = null;
+  let resZhiDaoList =null;
+  if(res.code ==0 && resZhiDao.code ==0){
+    console.log("111--------"+res);
+    planInfo = res.data.list;
+    resZhiDaoList = resZhiDao.data.list;
+
+  }
+  yield this.render('zhidao', {
+    noFoot: true,
+    noHead : true,
+    title : "h5demo",
+    description : "zhidao",
+    planInfo : planInfo,
+    resZhiDaoList:resZhiDaoList
+
+  });
+};
+
+handlers.zhidaos = function*(){
+  let type = this.query.type;
+  console.log('type-----------'+type)
+  if (type ==null || type == 'type') {
+    type =1;
+  }
+  // let mobile = this.params.mobile;
+  // var params = { 'mobile' : mobile };
+  //获取币名称
+  var res = yield this.webservice('get', 'https://api2.mytoken.org/media/medialist?type='+type+'1&keyword=exchange_announcement&tag=&page=2&timestamp=1522493677725&code=8ef475ad7bd602677269a00cb14e30f1&v=1.4.0&platform=m&language=zh_CN&',{});
 
   let planInfo = null;
   let resZhiDaoList =null;
@@ -153,7 +188,7 @@ handlers.others = function*(){
 
   };*/
   /*var res = yield this.webservice('get', 'https://api2.mytoken.org/media/medialist?type=1&keyword=exchange_announcement&tag=&page=2&timestamp=1522493677725&code=8ef475ad7bd602677269a00cb14e30f1&v=1.4.0&platform=m&language=zh_CN&',{});*/
-  let res = yield this.webservice('https://api2.mytoken.org/currency/currencylist?market_id='+market_id+'+&page=1&size=20&direction=asc&sort=rank&timestamp=1522552504356&code=42bbf99ed4490fd0af0720351cfee1c7&v=1.4.0&platform=m&language=zh_CN', {});
+  let res = yield this.webservice('get','https://api2.mytoken.org/currency/currencylist?market_id='+market_id+'+&page=1&size=20&direction=asc&sort=rank&timestamp=1522552504356&code=42bbf99ed4490fd0af0720351cfee1c7&v=1.4.0&platform=m&language=zh_CN', {});
   let resultSet = null;
   if(res.code ==0){
     resultSet = res.data.list;
@@ -164,8 +199,54 @@ handlers.others = function*(){
     title : "others",
     description : "others",
     resultSet: resultSet
-
   });
+};
+
+handlers.kline = function*(){
+  let timestamp = this.query.timestamp;
+  let code = this.query.code;
+  var params =
+  {
+    'timestamp':timestamp,
+    'code':code,
+    'market_name' : 'Binance',
+    'market_id' : '338',
+    'device_os' : '7.1.1',
+    'time' : timestamp,
+    'com_id' : 'btc_usdt',
+    'v' : '1.6.5',
+    'platform' : 'android',
+    'mytoken' : '36c8d648abded3134107a49f53bb6b50',
+    'anchor' : 'USDT',
+    'period' : '3m',
+    'device_model' : 'PRO%206s',
+    'device_token' : 'AjdevmmmrvH8AWjlevR8mxf9gnKNBLMyPEihAS6Y8EgP',
+    'udid' : 'PRO%ffffffff-e4f8-f1b1-3c6c-3a0b441c8212',
+    'language' : 'zh_CN',
+    'legal_currency' : 'CNY',
+    'symbol':'BTC',
+    'limit':'90'
+
+  };
+  console.log(timestamp+"==========="+code);
+  var res = yield this.webservice('get', 'http://api.lb.mytoken.org/currency/kline?timestamp='+timestamp+'&code='+code+'&market_name=Binance&device_os=7.1.1&time='+timestamp+'&com_id=btc_usdt&market_id=338&v=1.6.5&platform=android&mytoken=36c8d648abded3134107a49f53bb6b50&anchor=USDT&period=3m&device_model=PRO%206s&device_token=AjdevmmmrvH8AWjlevR8mxf9gnKNBLMyPEihAS6Y8EgP&language=zh_CN&udid=ffffffff-e4f8-f1b1-3c6c-3a0b441c8212&legal_currency=CNY&symbol=BTC&limit=90',{});
+  let url1= 'http://api.lb.mytoken.org/currency/kline?timestamp='+timestamp+'&code='+code+'&market_name=Binance&device_os=7.1.1&time='+timestamp+'&com_id=btc_usdt&market_id=338&v=1.6.5&platform=android&mytoken=36c8d648abded3134107a49f53bb6b50&anchor=USDT&period=3m&device_model=PRO%206s&device_token=AjdevmmmrvH8AWjlevR8mxf9gnKNBLMyPEihAS6Y8EgP&language=zh_CN&udid=ffffffff-e4f8-f1b1-3c6c-3a0b441c8212&legal_currency=CNY&symbol=BTC&limit=90';
+  let url2='http://api.lb.mytoken.org/currency/kline?';
+  //let resKline = yield this.webservice('get',res, {});
+  let resultSet = null;
+  if(res.code ==0){
+    console.log('res'+JSON.stringify(res.data));
+    resultSet = res;
+  }
+
+  yield this.render('kline', {
+    noFoot: true,
+    noHead : true,
+    title : "kline",
+    description : "kline",
+    resultSet: resultSet
+  });
+
 };
 
 

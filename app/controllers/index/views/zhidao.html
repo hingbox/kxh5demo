@@ -11,15 +11,10 @@
 {% endblock %}
 {% block content %}
 <div class="item">
-    早知道:<select>
-
-   <!-- {% for zhiDaoData in resZhiDaoList%}-->
-    <option value ="volvo">交易公告</option>
-    <option value ="saab">交易所推特</option>
-    <option value="opel">大V推特</option>
-    <option value="audi">币聊</option>
-    <option value="audi">教程</option>
-    <!--{% endfor %}-->
+    早知道:<select id="selected">
+       {% for zhiDaoData in resZhiDaoList%}
+        <option value ="{{zhiDaoData.type}}">{{zhiDaoData.title}}</option>
+        {% endfor %}
 </select>
     </select>
     {% if planInfo != null && planInfo.length > 0 %}
@@ -55,6 +50,14 @@
 
 {% block js %}
 <script type="text/javascript">
+    let params = {};
+    var type =$('#selected option:selected').val();
+    $(document).on('change','#selected',function(){
+        type = $(this).val();
+        console.log("type",type);
+        //var url = elab.util.buildurl('web_other');
+        elab.util.redirect('/index/zhidao?type='+type);
+    })
     /**
      * 可用
      * /
@@ -96,9 +99,7 @@
                 fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
         return fmt;
     }
-    $(document).ready(function () {
-       console.log(getLocalTime(1522559418));
-    });
+
 
 </script>
 {% endblock %}
